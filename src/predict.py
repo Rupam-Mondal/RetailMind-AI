@@ -5,7 +5,7 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-MODEL_PATH = BASE_DIR / "models" / "churn_pipeline.joblib"
+MODEL_PATH = BASE_DIR / "models" / "churn_v3.joblib"
 
 
 model = joblib.load(MODEL_PATH)
