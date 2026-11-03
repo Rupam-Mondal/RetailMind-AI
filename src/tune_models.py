@@ -68,10 +68,10 @@ def load_data():
 def main():
     X_train, X_test, y_train, y_test = load_data()
     preprocessor = build_preprocessor(X_train)
-    cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=RANDOM_STATE)
+    cv = StratifiedKFold(n_splits=3, shuffle=True, random_state=RANDOM_STATE)
     candidates = {
         "SVM": (
-            build_pipeline(preprocessor, SVC(probability=True, random_state=RANDOM_STATE)),
+            build_pipeline(preprocessor, SVC(probability=False, random_state=RANDOM_STATE)),
             {
                 "classifier__C": [0.1, 1],
                 "classifier__gamma": ["scale"],
@@ -104,7 +104,7 @@ def main():
             param_grid=parameter_grid,
             scoring="roc_auc",
             cv=cv,
-            n_jobs=-1,
+            n_jobs=1,
             refit=True,
             return_train_score=True
         )
@@ -115,7 +115,7 @@ def main():
             y_train,
             scoring="roc_auc",
             cv=cv,
-            n_jobs=-1,
+            n_jobs=1,
             return_train_score=True
         )
         results.append({
@@ -141,7 +141,7 @@ def main():
         train_sizes=[0.2, 0.4, 0.6, 0.8, 1.0],
         cv=cv,
         scoring="roc_auc",
-        n_jobs=-1
+        n_jobs=1
     )
     curve = pd.DataFrame({
         "training_examples": train_sizes,
@@ -151,6 +151,8 @@ def main():
         "validation_roc_auc_std": validation_scores.std(axis=1)
     })
 
+    if champion_name == "SVM":
+        champion.set_params(classifier__probability=True)
     champion.fit(X_train, y_train)
     y_pred = champion.predict(X_test)
     y_probability = champion.predict_proba(X_test)[:, 1]
