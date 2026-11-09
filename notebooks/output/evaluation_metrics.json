@@ -1,0 +1,18 @@
+{
+    "test_loss": 0.4363856017589569,
+    "test_accuracy": 0.8490999937057495,
+    "accuracy_score": 0.8491,
+    "epochs_trained": 15,
+    "class_names": [
+        "T-shirt_top",
+        "Trouser",
+        "Pullover",
+        "Dress",
+        "Coat",
+        "Sandal",
+        "Shirt",
+        "Sneaker",
+        "Bag",
+        "Ankle_boot"
+    ]
+}
